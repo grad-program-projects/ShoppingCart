@@ -12,11 +12,11 @@ export default function App() {
     <CartProvider>
       <div style={{ padding: "20px", textAlign: "center" }}>
         <h1 >Products</h1>
-        <CartSummary />
+        
         <Suspense fallback={<p>Loading products...</p>}>
           <ProductGrid />
         </Suspense>
-
+        <CartSummary />
       </div>
     </CartProvider>
   );

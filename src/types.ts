@@ -1,4 +1,3 @@
-
 export type Product = {
   id: number;
   title: string;
@@ -12,21 +11,20 @@ export type Product = {
   };
 };
 
-export type CartItem={
-  id:number,
-  title: string,
-  price:number,
-image:string,
-quantity: number 
-}
+export type CartItem = {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+  quantity: number;
+};
 
 export type CartState = {
-  items: CartItem[]
-}
+  items: CartItem[];
+};
 
 export type Action =
-  | { type: "ADD_ITEM"; payload: Product | CartItem}
-   | { type: "DECREASE_ITEM"; payload: CartItem}
-  | { type: "REMOVE_ITEM";  payload: CartItem }
-  | { type: "UPDATE_QUANTITY"; payload: { id: number; quantity: number } }
- 
+  | { type: "ADD_ITEM"; payload: Product | CartItem }
+  | { type: "DECREASE_ITEM"; payload: CartItem }
+  | { type: "REMOVE_ITEM"; payload: CartItem }
+  | { type: "UPDATE_QUANTITY"; payload: { id: number; quantity: number } };

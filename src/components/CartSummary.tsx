@@ -11,7 +11,11 @@ export function CartSummary() {
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
 
   if (items.length === 0) {
-    return <p>Your cart is empty</p>;
+    return (
+      <div className="text-center text-base-content/50 py-6">
+        <p>Your cart is empty</p>
+      </div>
+    );
   }
   return (
     <div>

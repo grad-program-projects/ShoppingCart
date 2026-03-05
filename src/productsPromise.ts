@@ -6,5 +6,5 @@ export const fetchProduct = async (id: number): Promise<Product> => {
 };
 
 export const productsPromise: Promise<Product[]> = Promise.all(
-  Array.from({ length: 20 }, (_, index) => fetchProduct(index + 1))
+  Array.from({ length: 9 }, (_, index) => fetchProduct(index + 1)),
 );

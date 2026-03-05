@@ -1,5 +1,4 @@
 import { use } from "react";
-import type{ Action, Product } from "../types";
 import {ProductCard} from './ProductCard'
 import {productsPromise} from '../productsPromise'
 

@@ -2,7 +2,6 @@ import { useCart, useCartDispatch } from "../context/CartContext";
 
 export function CartSummary() {
     const { items } = useCart();
-    const tottalItems = items.reduce((sum, item) => sum + item.quantity, 0)
     const dispatch = useCartDispatch();
 
     const totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -44,6 +43,6 @@ export function CartSummary() {
 function handleClick(){
    
     alert("Jokes...you're broke!");
-    
+
   
 }

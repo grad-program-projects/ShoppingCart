@@ -1,6 +1,5 @@
-import { useCart, useCartDispatch } from "../context/CartContext";
+import { useCartDispatch } from "../context/CartContext";
 import type { Product } from "../types";
-import type { Action } from "../types";
 
 export function ProductCard({ product }: { product: Product}) {
   const dispatch = useCartDispatch();

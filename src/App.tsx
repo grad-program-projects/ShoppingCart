@@ -1,17 +1,23 @@
-import { createContext, use, useReducer, useContext } from "react";
+import { createContext, use, useReducer, useContext, Suspense } from "react";
 import { cartReducer } from "./reducer/cartReducer";
-import {ProductGrid} from './components/ProductGrid'
+import { ProductGrid } from './components/ProductGrid'
+import { CartProvider } from "./context/CartContext";
+import { CartSummary } from "./components/CartSummary";
 
 
 
 export default function App() {
-  const [state, dispatch] = useReducer(cartReducer, { items: [] })
+
   return (
-    <div style={{ padding: "20px", textAlign:"center" }}>
-      <h1 >Products</h1>
-      <p>Items in cart: {state.items.reduce((sum, item) => sum + item.quantity, 0)}</p>
-      <button> Cart </button>
-        <ProductGrid dispatch={dispatch} />
-    </div>
+    <CartProvider>
+      <div style={{ padding: "20px", textAlign: "center" }}>
+        <h1 >Products</h1>
+        <CartSummary />
+        <Suspense fallback={<p>Loading products...</p>}>
+          <ProductGrid />
+        </Suspense>
+
+      </div>
+    </CartProvider>
   );
 }

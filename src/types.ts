@@ -27,4 +27,5 @@ export type CartState = {
 export type Action =
   | { type: "ADD_ITEM"; payload: Product }
   | { type: "REMOVE_ITEM";  payload: Product }
-  | { type: "UPDATE_QUANTITY"; payload: { id: number; quantity: number } };
+  | { type: "UPDATE_QUANTITY"; payload: { id: number; quantity: number } }
+  | { type: "DECREASE_ITEM"; payload: Product }

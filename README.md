@@ -128,9 +128,6 @@ Tested on production build (`npm run preview`):
 |---|---|---|
 | Performance | 75 | 90 |
 
-
-> Mobile performance is lower due to Lighthouse simulating a throttled 4G network. This is expected behaviour, not a code issue.
-
 ---
 
 ## Styling Approach

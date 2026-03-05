@@ -7,11 +7,11 @@ export default function App() {
   return (
     <CartProvider>
       <div data-theme="valentine" className="min-h-screen bg-base-200">
-        <div className="navbar bg-base-100 shadow-sm">
-          <div className="navbar-start">
-            <h1 className="text-xl font-bold text-primary px-4">Products</h1>
-          </div>
-        </div>
+        
+          
+            <h1 className="text-xl font-bold text-primary px-4 ">Products</h1>
+          
+        
 
         <div className="max-w-6xl mx-auto p-6">
           <Suspense

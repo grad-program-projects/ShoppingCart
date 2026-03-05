@@ -13,6 +13,9 @@ export function ProductCard({ product }: { product: Product }) {
         />
       </figure>
       <div className="card-body p-4">
+          <span className="badge badge-outline badge-sm capitalize">
+          {product.category}
+        </span>
         <p className="text-sm font-semibold line-clamp-2 mt-1">
           {product.title}
         </p>

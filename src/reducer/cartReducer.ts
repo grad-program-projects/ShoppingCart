@@ -40,6 +40,26 @@ export function cartReducer(state: CartState, action: Action): CartState {
         )
       };
     }
+    case "DECREASE_ITEM": {
+  const existing = state.items.find(item => item.id === action.payload.id);
+
+  
+  if (existing && existing.quantity === 1) {
+    return {
+      ...state,
+      items: state.items.filter(item => item.id !== action.payload.id)
+    };
+  }
+
+  return {
+    ...state,
+    items: state.items.map(item =>
+      item.id === action.payload.id
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
+    )
+  };
+}
 
     default:
       return state;

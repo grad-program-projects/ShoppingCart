@@ -1,73 +1,140 @@
-# React + TypeScript + Vite
+# Shopping Cart
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A shopping cart app built with React, TypeScript, Reducer + Context. No prop drilling. Built as a learning project to understand state management patterns in React.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## React Compiler
+- **React 19** — UI library
+- **TypeScript** — type safety, no `any`
+- **Vite** — build tool
+- **DaisyUI + Tailwind CSS** — styling, cupcake theme
+- **vite-plugin-pwa** — service worker + PWA manifest
+- **FakeStore API** — product data
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Preview
+![App Screenshot](public/products.png)
+![App screenshot](public/checkout.png)
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Browse 9 products fetched from FakeStore API
+- Add items to cart
+- Remove items from cart
+- Increase / decrease quantity per item
+- Cart summary with total items and total price
+- Responsive — mobile first (2 cols → 4 cols)
+- PWA — installable, works offline
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## Project Structure
+
+```
+src/
+├── App.tsx                       # Nearly empty — just layout + CartProvider
+├── context/
+│   └── CartContext.tsx           # createContext, CartProvider, useCart, useCartDispatch
+├── reducer/
+│   └── cartReducer.ts            # cartReducer — all cart state logic
+├── types/
+│   └── index.ts                  # Product, CartItem, CartState, Action types
+├── data/
+│   └── productsPromise.ts        # fetchProduct + Promise.all
+└── components/
+    ├── ProductGrid.tsx            # Renders product grid using use()
+    ├── ProductCard.tsx            # Single product card, dispatches ADD_ITEM
+    └── CartSummary.tsx            # Cart items, quantity controls, total, checkout
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## State Management
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+All cart state lives in a `useReducer`. No standalone `useState` for cart data.
+
+### The Reducer handles 4 actions:
+
+| Action | What it does |
+|---|---|
+| `ADD_ITEM` | Adds product or increases quantity if already in cart |
+| `DECREASE_ITEM` | Decreases quantity by 1, removes item if quantity reaches 0 |
+| `REMOVE_ITEM` | Removes item completely |
+| `UPDATE_QUANTITY` | Sets an exact quantity |
+
+### Context eliminates prop drilling:
+
+Two contexts are used — one for state, one for dispatch:
+
 ```
+CartProvider (owns state + dispatch)
+  ├── ProductCard   → useCartDispatch() to fire ADD_ITEM
+  ├── CartSummary   → useCart() to read items + useCartDispatch() for controls
+  └── App           → knows nothing about cart state
+```
+
+### Custom hooks:
+
+- `useCart()` — read cart state anywhere
+- `useCartDispatch()` — fire actions anywhere
+
+---
+
+## Data Fetching
+
+No `useEffect`. Products are fetched using `Promise.all` at module level and unwrapped with React 19's `use()` hook inside `ProductGrid`. A `<Suspense>` boundary shows a loading state while the fetch resolves.
+
+```ts
+const fetchProduct = async (id: number): Promise<Product> => {
+  const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+  return response.json();
+};
+
+const productsPromise: Promise<Product[]> = Promise.all(
+  Array.from({ length: 9 }, (_, index) => fetchProduct(index + 1))
+);
+```
+
+---
+
+## Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build (use this for Lighthouse)
+npm run preview
+```
+
+---
+
+## Lighthouse Scores
+
+Tested on production build (`npm run preview`):
+
+| Category | Mobile | Desktop |
+|---|---|---|
+| Performance | 75 | 90 |
+
+---
+
+## Styling Approach
+
+Inline styles were used during early development intentionally — keeping focus on getting the logic (reducer, context, fetch) working correctly before adding styling. Practising Mentor's advice for development: get it working, then make it look good.
+
+DaisyUI's `valentine` theme was applied in the final sprint using Tailwind utility classes throughout.
+
+---
+

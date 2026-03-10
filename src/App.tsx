@@ -1,11 +1,10 @@
 import { Suspense } from "react";
 import { ProductGrid } from "./components/ProductGrid";
-import { CartProvider } from "./context/CartContext";
 import { CartSummary } from "./components/CartSummary";
 
 export default function App() {
   return (
-    <CartProvider>
+   
       <div data-theme="valentine" className="min-h-screen bg-base-200">
         
           
@@ -28,6 +27,6 @@ export default function App() {
           <CartSummary />
         </div>
       </div>
-    </CartProvider>
+    
   );
 }

@@ -1,8 +1,10 @@
-import { useCart, useCartDispatch } from "../context/CartContext";
+import { useDispatch, useSelector } from "react-redux";
+
+import { useAppSelector } from "../store/hooks";
 
 export function CartSummary() {
-  const { items } = useCart();
-  const dispatch = useCartDispatch();
+  const { items } = useAppSelector(state => state.cart);
+  const dispatch = useDispatch();
 
   const totalPrice = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -42,18 +44,18 @@ export function CartSummary() {
           
            <div className="flex items-center gap-2 mt-1">
             <button className="btn btn-xs btn-outline btn-primary"
-              onClick={() => dispatch({ type: "DECREASE_ITEM", payload: item })}
+              onClick={() => dispatch({ type: "cart/decreaseItem", payload: item })}
             >
               −
             </button>
             <span className="text-sm font-bold w-4 text-center">{item.quantity}</span>
             <button className="btn btn-xs btn-outline btn-primary"
-              onClick={() => dispatch({ type: "ADD_ITEM", payload: item })}
+              onClick={() => dispatch({ type: "cart/addItem", payload: item })}
             >
               +
             </button>
             <button className="btn btn-xs btn-ghost text-error ml-2"
-              onClick={() => dispatch({ type: "REMOVE_ITEM", payload: item })}
+              onClick={() => dispatch({ type: "cart/removeItem", payload: item })}
             >
               Remove
             </button>

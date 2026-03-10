@@ -1,8 +1,9 @@
-import { useCartDispatch } from "../context/CartContext";
+
+import { useAppDispatch } from "../store/hooks";
 import type { Product } from "../types";
 
 export function ProductCard({ product }: { product: Product }) {
-  const dispatch = useCartDispatch();
+  const dispatch = useAppDispatch();
   return (
     <div className="card bg-base-100 shadow-sm">
       <figure className="bg-white px-6 pt-6 pb-3 h-48 flex items-center justify-center">
@@ -24,7 +25,7 @@ export function ProductCard({ product }: { product: Product }) {
 
         <button
           className="btn btn-primary btn-sm w-full mt-2"
-          onClick={() => dispatch({ type: "ADD_ITEM", payload: product })}
+          onClick={() => dispatch({ type: "cart/addItem", payload: product })}
         >
           Add to cart
         </button>

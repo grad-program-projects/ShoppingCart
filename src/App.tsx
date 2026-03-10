@@ -13,15 +13,9 @@ export default function App() {
         
 
         <div className="max-w-6xl mx-auto p-6">
-          <Suspense
-            fallback={
-              <p className="text-center text-base-content/50 py-20">
-                Loading products...
-              </p>
-            }
-          >
+          
             <ProductGrid />
-          </Suspense>
+        
         </div>
         <div className="max-w-6xl mx-auto px-6 pb-10">
           <CartSummary />
